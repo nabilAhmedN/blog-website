@@ -30,9 +30,13 @@ router.post("/login", async (req, res) => {
     if (!match) {
       return res.status(401).json("Worng Credentials");
     }
-    const token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: "3d",
-    });
+    const token = jwt.sign(
+      { id: user._id, username: user.username, email: user.email },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: "3d",
+      }
+    );
     const { password, ...info } = user._doc;
     res
       .cookie("token", token, {
@@ -57,4 +61,29 @@ router.get("/logout", async (req, res) => {
   }
 });
 
+// router.get("/refetch", (req,res)=>{
+//   const token=req.cookies.token
+//   jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,{},async (err,data)=>{
+//       if(err){
+//           return res.status(404).json(err)
+//       }
+//       res.status(200).json(data)
+//   })
+// })
+
+router.get("/refetch", (req, res) => {
+  try {
+    const token = req.cookies?.token;
+
+    if (!token) {
+      return res.status(401).json({ error: "Token not provided" });
+    }
+
+    const decodedData = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+    res.status(200).json(decodedData);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 module.exports = router;

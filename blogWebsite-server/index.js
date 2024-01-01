@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('cors');
 const app = express();
 const colors = require("colors");
 const mongoose = require("mongoose");
@@ -20,6 +21,7 @@ const connectToDB = async () => {
   }
 };
 
+app.use(cors({origin:"http://localhost:5173",credentials:true}));
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api/auth", authRoute);
