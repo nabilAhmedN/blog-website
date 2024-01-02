@@ -1,8 +1,9 @@
 import { BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Menu from "./Menu";
+import { UserContext } from "../context/UserContext";
 
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
@@ -11,7 +12,7 @@ const Navbar = () => {
     setMenu(!menu);
   };
 
-  const user = false;
+  const {user} = useContext(UserContext);
   return (
     <div className="flex items-center justify-between px-6 md:px-[200px] py-4">
       <h1 className="text-base md:text-xl font-extrabold">
@@ -38,7 +39,7 @@ const Navbar = () => {
         {user ? (
           <div onClick={showMenu}>
             {" "}
-            <p className="cursor-pointer">
+            <p className="cursor-pointer relative">
               <FaBars />
             </p>{" "}
             {menu && <Menu />}
@@ -50,7 +51,7 @@ const Navbar = () => {
         )}
       </div>
       <div onClick={showMenu} className="md:hidden text-lg">
-        <p>
+        <p className="cursor-pointer relative">
           <FaBars />
         </p>
         {menu && <Menu />}

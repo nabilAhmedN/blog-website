@@ -1,16 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, RouterProvider } from "react-router-dom";
-import App from "./App.jsx";
+import { RouterProvider } from "react-router-dom";
 import "./index.css";
 import MainRoute from "./Routes/MainRoute/MainRoute.jsx";
+import { UserContextProvider } from "./context/UserContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    {/* <BrowserRouter>
-      <App />
-    </BrowserRouter> */}
-
-    <RouterProvider router={MainRoute}/>
+    <UserContextProvider>
+      <RouterProvider router={MainRoute} />
+    </UserContextProvider>
   </React.StrictMode>
 );
